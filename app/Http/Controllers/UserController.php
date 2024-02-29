@@ -38,10 +38,21 @@ class UserController extends Controller
             "email" => $request->email,
             "password" => bcrypt($request->password),
         ]);
+        $accessToken = $user->createToken("accessToken")->plainTextToken;
 
         return response()->json([
             "message" => "User register success",
-            "user" => $user,
+            "user" => [
+                "id" => $user->id,
+                "name" => $user->name,
+                "nip" => $user->nip,
+                "mapel" => $user->mapel,
+                "foto" => $user->foto,
+                "email" => $user->email,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at,
+                "accessToken" => $accessToken,
+            ],
         ]);
     }
 
