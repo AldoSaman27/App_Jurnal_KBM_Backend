@@ -58,7 +58,7 @@ class UserController extends Controller
 
     public function login(Request $request, User $user) {
         $validator = Validator::make($request->all(), [
-            "email" => "required|string|email",
+            "nip" => "required|numeric|min:18",
             "password" => "required|string|min:5",
         ]);
 
@@ -69,10 +69,10 @@ class UserController extends Controller
             ], 422);
         }
 
-        if (!Auth::attempt($request->only("email", "password")))
-            return response()->json(["message" => "Email atau Kata sandi salah!"], 401);
+        if (!Auth::attempt($request->only("nip", "password")))
+            return response()->json(["message" => "NIP atau Kata sandi salah!"], 401);
 
-        $user = User::where("email", $request->email)->first();
+        $user = User::where("nip", $request->nip)->first();
         $accessToken = $user->createToken("accessToken")->plainTextToken;
 
         return response()->json([
@@ -83,7 +83,6 @@ class UserController extends Controller
                 "nip" => $user->nip,
                 "mapel" => $user->mapel,
                 "foto" => $user->foto,
-                "email" => $user->email,
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at,
                 "accessToken" => $accessToken,
