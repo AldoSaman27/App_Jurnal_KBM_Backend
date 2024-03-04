@@ -17,9 +17,8 @@ class UserController extends Controller
     public function register(Request $request, User $user) {
         $validator = Validator::make($request->all(), [
             "name" => "required|string",
-            "nip" => "required|string|unique:users",
+            "nip" => "required|numeric|min:18|unique:users",
             "mapel" => "required|string",
-            "email" => "required|string|email|unique:users",
             "password" => "required|string|min:5",
         ]);
 
@@ -35,7 +34,6 @@ class UserController extends Controller
             "nip" => $request->nip,
             "mapel" => $request->mapel,
             "foto" => "User_Profile.png",
-            "email" => $request->email,
             "password" => bcrypt($request->password),
         ]);
         $accessToken = $user->createToken("accessToken")->plainTextToken;
@@ -48,7 +46,6 @@ class UserController extends Controller
                 "nip" => $user->nip,
                 "mapel" => $user->mapel,
                 "foto" => $user->foto,
-                "email" => $user->email,
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at,
                 "accessToken" => $accessToken,

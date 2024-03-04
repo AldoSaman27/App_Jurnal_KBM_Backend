@@ -22,7 +22,6 @@ class User extends Authenticatable
         'nip',
         'mapel',
         'foto',
-        'email',
         'password',
     ];
 
