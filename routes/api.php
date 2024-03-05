@@ -24,7 +24,7 @@ use App\Http\Controllers\JurnalController;
 route::post("auth/register", [UserController::class, "register"]);
 route::post("auth/login", [UserController::class, "login"]);
 route::post("auth/logout", [UserController::class, "logout"]);
-route::post("auth/update/{id}", [UserController::class, "update"]);
+route::post("auth/update/{nip}", [UserController::class, "update"]);
 route::get("auth/checktoken", [UserController::class, "checkToken"]);
 
 route::get("jurnal/index/{nip}/{bulan}/{tahun}", [JurnalController::class, "index"]);

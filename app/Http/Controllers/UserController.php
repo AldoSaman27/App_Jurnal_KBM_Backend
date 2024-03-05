@@ -87,13 +87,12 @@ class UserController extends Controller
         return response()->json(["message" => "User logout success"]);
     }
 
-    public function update(Request $request, User $user, $id) {
+    public function update(Request $request, User $user, $nip) {
         $validator = Validator::make($request->all(), [
             "foto" => "nullable|image",
             "name" => "required|string",
             "nip" => "required|string",
             "mapel" => "required|string",
-            "email" => "required|string|email",
         ]);
 
         if ($validator->fails()) {
@@ -103,13 +102,13 @@ class UserController extends Controller
             ], 422);
         }
 
-        $user = User::where("id", $id)->first();
-        if (!$user) return response()->json(["message" => "User (id: $id) tidak di temukan!"], 404);
+        $user = User::where("nip", $nip)->first();
+        if (!$user) return response()->json(["message" => "User (NIP: $nip) tidak di temukan!"], 404);
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
-            @$fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
+            $fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
             $file->move(public_path('uploads/foto'), $fileName);
             $updateUser = $user->update([
                 "foto" => $fileName,
@@ -120,7 +119,6 @@ class UserController extends Controller
             "name" => $request->name,
             "nip" => $request->nip,
             "mapel" => $request->mapel,
-            "email" => $request->email,
         ]);
 
         if ($updateUser) {
