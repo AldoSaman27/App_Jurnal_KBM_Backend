@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('nip')->unique();
             $table->string('mapel')->nullable();
+            $table->string('sekolah')->nullable();
             $table->string('foto')->nullable();
             $table->string('password');
             $table->rememberToken();

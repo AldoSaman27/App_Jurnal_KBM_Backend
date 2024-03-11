@@ -40,6 +40,7 @@ class UserController extends Controller
                 "name" => $user->name,
                 "nip" => $user->nip,
                 "mapel" => $user->mapel,
+                "sekolah" => $user->sekolah,
                 "foto" => $user->foto,
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at,
@@ -74,6 +75,7 @@ class UserController extends Controller
                 "name" => $user->name,
                 "nip" => $user->nip,
                 "mapel" => $user->mapel,
+                "sekolah" => $user->sekolah,
                 "foto" => $user->foto,
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at,
@@ -93,6 +95,7 @@ class UserController extends Controller
             "name" => "required|string",
             "nip" => "required|string",
             "mapel" => "required|string",
+            "sekolah" => "required|string",
         ]);
 
         if ($validator->fails()) {
@@ -119,6 +122,7 @@ class UserController extends Controller
             "name" => $request->name,
             "nip" => $request->nip,
             "mapel" => $request->mapel,
+            "sekolah" => $request->sekolah,
         ]);
 
         if ($updateUser) {
