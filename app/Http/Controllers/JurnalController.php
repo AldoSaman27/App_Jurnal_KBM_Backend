@@ -79,7 +79,7 @@ class JurnalController extends Controller
             $file = $request->file('foto_kegiatan');
             $extension = $file->getClientOriginalExtension();
             @$fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
-            $file->move(public_path('uploads/foto_kegiatan'), $fileName);
+            $file->storeAs('activity-photos', $fileName);
         }
         
         $jurnal = Jurnal::create([
