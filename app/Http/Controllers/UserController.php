@@ -112,7 +112,7 @@ class UserController extends Controller
             $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
-            $file->move(public_path('uploads/foto'), $fileName);
+            $file->storeAs('profile-picture', $fileName);
             $updateUser = $user->update([
                 "foto" => $fileName,
             ]);
