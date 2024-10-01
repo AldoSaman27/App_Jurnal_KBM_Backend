@@ -92,44 +92,35 @@ class UserController extends Controller
     public function update(Request $request, User $user, $nip) {
         $validator = Validator::make($request->all(), [
             "foto" => "nullable|image",
-            "name" => "required|string",
-            "nip" => "required|string",
-            "mapel" => "required|string",
-            "sekolah" => "required|string",
+            "name" => "nullable|string",
+            "mapel" => "nullable|string",
+            "sekolah" => "nullable|string",
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                "message" => "Invalid field",
-                "errors" => $validator->errors(),
-            ], 422);
-        }
+        if ($validator->fails()) return response()->json([
+            "message" => "Invalid field",
+            "errors" => $validator->errors(),
+        ], 422);
 
         $user = User::where("nip", $nip)->first();
         if (!$user) return response()->json(["message" => "User (NIP: $nip) tidak di temukan!"], 404);
 
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('foto')) 
+        {
             $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
             $file->storeAs('profile-picture', $fileName);
-            $updateUser = $user->update([
-                "foto" => $fileName,
-            ]);
-        }
 
-        $updateUser = $user->update([
-            "name" => $request->name,
-            "nip" => $request->nip,
-            "mapel" => $request->mapel,
-            "sekolah" => $request->sekolah,
+            $user->update(["foto" => $fileName]);
+        }
+        if ($request->name) $user->update(["name" => $request->name]);
+        if ($request->mapel) $user->update(["mapel" => $request->mapel]);
+        if ($request->sekolah) $user->update(["sekolah" => $request->sekolah]);
+
+        return response()->json([
+            "message" => "User update success",
+            "user" => $user,
         ]);
-
-        if ($updateUser) {
-            return response()->json([
-                "message" => "User update success",
-                "user" => $user,
-            ]);
-        }
     }
 }
