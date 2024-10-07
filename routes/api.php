@@ -28,5 +28,6 @@ route::post("user/update/{nip}", [UserController::class, "update"]);
 
 route::get("jurnal/index/{nip}/{bulan}/{tahun}", [JurnalController::class, "index"]);
 route::post("jurnal/store", [JurnalController::class, "store"]);
-route::delete("jurnal/destroy/{id}", [JurnalController::class, "destroy"]);
+route::get("jurnal/show/{id}", [JurnalController::class, "show"]);
 route::post("jurnal/update/{id}", [JurnalController::class, "update"]);
+route::delete("jurnal/destroy/{id}", [JurnalController::class, "destroy"]);

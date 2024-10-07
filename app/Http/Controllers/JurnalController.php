@@ -105,9 +105,15 @@ class JurnalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Jurnal $jurnal)
+    public function show(Jurnal $jurnal, $id)
     {
-        //
+        $jurnal = Jurnal::where("id", $id)->first();
+        if (!$jurnal) return response()->json(["message" => "Jurnal (id: $id) tidak di temukan!"], 404);
+
+        return response()->json([
+            "message" => "Jurnal show success",
+            "jurnal" => $jurnal,
+        ]);
     }
 
     /**
@@ -132,7 +138,7 @@ class JurnalController extends Controller
             "uraian_kegiatan" => "required|string",
             "materi" => "nullable|string",
             "tujuan_pembelajaran" => "nullable|string",
-            "foto_kegiatan" => "required|image",
+            "foto_kegiatan" => "nullable|image",
         ]);
 
         if ($validator->fails()) {
@@ -150,12 +156,11 @@ class JurnalController extends Controller
             $extension = $file->getClientOriginalExtension();
             @$fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
             $file->storeAs('activity-photos', $fileName);
-            $updateJurnal = $jurnal->update([
-                "foto_kegiatan" => $fileName,
-            ]);
+
+            $jurnal->update(["foto_kegiatan" => $fileName]);
         }
 
-        $updateJurnal = $jurnal->update([
+        $jurnal->update([
             "nip" => $request->nip,
             "hari_tanggal" => $request->hari_tanggal,
             "jam_pembelajaran" => $request->jam_pembelajaran,
@@ -166,12 +171,10 @@ class JurnalController extends Controller
             "tujuan_pembelajaran" => $request->tujuan_pembelajaran,
         ]);
 
-        if ($updateJurnal) {
-            return response()->json([
-                "message" => "Jurnal update success",
-                "jurnal" => $jurnal,
-            ]);
-        }
+        return response()->json([
+            "message" => "Jurnal update success",
+            "jurnal" => $jurnal,
+        ]);
     }
 
     /**
