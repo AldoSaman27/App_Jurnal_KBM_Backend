@@ -21,10 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-route::post("auth/register", [UserController::class, "register"]);
-route::post("auth/login", [UserController::class, "login"]);
-route::post("auth/logout", [UserController::class, "logout"]);
-route::post("auth/update/{nip}", [UserController::class, "update"]);
+route::post("user/register", [UserController::class, "register"]);
+route::post("user/login", [UserController::class, "login"]);
+route::post("user/logout", [UserController::class, "logout"]);
+route::post("user/update/{nip}", [UserController::class, "update"]);
 
 route::get("jurnal/index/{nip}/{bulan}/{tahun}", [JurnalController::class, "index"]);
 route::post("jurnal/store", [JurnalController::class, "store"]);

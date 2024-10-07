@@ -58,10 +58,12 @@ class JurnalController extends Controller
         $validator = Validator::make($request->all(), [
             "nip" => "required|string",
             "hari_tanggal" => "required|string",
-            "jam_ke" => "required|string",
+            "jam_pembelajaran" => "required|string",
             "kelas" => "required|string",
-            "uraian_kegiatan" => "required|string",
             "kehadiran" => "required|string",
+            "uraian_kegiatan" => "required|string",
+            "materi" => "nullable|string",
+            "tujuan_pembelajaran" => "nullable|string",
             "foto_kegiatan" => "required|image",
         ]);
 
@@ -85,10 +87,12 @@ class JurnalController extends Controller
         $jurnal = Jurnal::create([
             "nip" => $request->nip,
             "hari_tanggal" => $request->hari_tanggal,
-            "jam_ke" => $request->jam_ke,
+            "jam_pembelajaran" => $request->jam_pembelajaran,
             "kelas" => $request->kelas,
-            "uraian_kegiatan" => $request->uraian_kegiatan,
             "kehadiran" => $request->kehadiran,
+            "uraian_kegiatan" => $request->uraian_kegiatan,
+            "materi" => $request->materi,
+            "tujuan_pembelajaran" => $request->tujuan_pembelajaran,
             "foto_kegiatan" => $fileName,
         ]);
 
@@ -122,11 +126,13 @@ class JurnalController extends Controller
         $validator = Validator::make($request->all(), [
             "nip" => "required|string",
             "hari_tanggal" => "required|string",
-            "jam_ke" => "required|string",
+            "jam_pembelajaran" => "required|string",
             "kelas" => "required|string",
-            "uraian_kegiatan" => "required|string",
             "kehadiran" => "required|string",
-            "foto_kegiatan" => "nullable|image",
+            "uraian_kegiatan" => "required|string",
+            "materi" => "nullable|string",
+            "tujuan_pembelajaran" => "nullable|string",
+            "foto_kegiatan" => "required|image",
         ]);
 
         if ($validator->fails()) {
@@ -152,10 +158,12 @@ class JurnalController extends Controller
         $updateJurnal = $jurnal->update([
             "nip" => $request->nip,
             "hari_tanggal" => $request->hari_tanggal,
-            "jam_ke" => $request->jam_ke,
+            "jam_pembelajaran" => $request->jam_pembelajaran,
             "kelas" => $request->kelas,
-            "uraian_kegiatan" => $request->uraian_kegiatan,
             "kehadiran" => $request->kehadiran,
+            "uraian_kegiatan" => $request->uraian_kegiatan,
+            "materi" => $request->materi,
+            "tujuan_pembelajaran" => $request->tujuan_pembelajaran,
         ]);
 
         if ($updateJurnal) {

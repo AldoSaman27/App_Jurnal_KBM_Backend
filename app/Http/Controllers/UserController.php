@@ -35,17 +35,8 @@ class UserController extends Controller
 
         return response()->json([
             "message" => "User register success",
-            "user" => [
-                "id" => $user->id,
-                "name" => $user->name,
-                "nip" => $user->nip,
-                "mapel" => $user->mapel,
-                "sekolah" => $user->sekolah,
-                "foto" => $user->foto,
-                "created_at" => $user->created_at,
-                "updated_at" => $user->updated_at,
-                "accessToken" => $accessToken,
-            ],
+            "user" => $user,
+            "accessToken" => $accessToken,
         ]);
     }
 
@@ -70,17 +61,8 @@ class UserController extends Controller
 
         return response()->json([
             "message" => "User login success",
-            "user" => [
-                "id" => $user->id,
-                "name" => $user->name,
-                "nip" => $user->nip,
-                "mapel" => $user->mapel,
-                "sekolah" => $user->sekolah,
-                "foto" => $user->foto,
-                "created_at" => $user->created_at,
-                "updated_at" => $user->updated_at,
-                "accessToken" => $accessToken,
-            ],
+            "user" => $user,
+            "accessToken" => $accessToken,
         ]);
     }
 
@@ -91,9 +73,9 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, $nip) {
         $validator = Validator::make($request->all(), [
-            "foto" => "nullable|image",
-            "name" => "nullable|string",
-            "mapel" => "nullable|string",
+            "foto_profil" => "nullable|image",
+            "nama" => "nullable|string",
+            "mata_pelajaran" => "nullable|string",
             "sekolah" => "nullable|string",
         ]);
 
@@ -105,17 +87,17 @@ class UserController extends Controller
         $user = User::where("nip", $nip)->first();
         if (!$user) return response()->json(["message" => "User (NIP: $nip) tidak di temukan!"], 404);
 
-        if ($request->hasFile('foto')) 
+        if ($request->hasFile('foto_profil')) 
         {
-            $file = $request->file('foto');
+            $file = $request->file('foto_profil');
             $extension = $file->getClientOriginalExtension();
             $fileName = date('Ymd') . '_' . uniqid() . '.' . $extension;
             $file->storeAs('profile-picture', $fileName);
 
-            $user->update(["foto" => $fileName]);
+            $user->update(["foto_profil" => $fileName]);
         }
-        if ($request->name) $user->update(["name" => $request->name]);
-        if ($request->mapel) $user->update(["mapel" => $request->mapel]);
+        if ($request->nama) $user->update(["nama" => $request->nama]);
+        if ($request->mata_pelajaran) $user->update(["mata_pelajaran" => $request->mata_pelajaran]);
         if ($request->sekolah) $user->update(["sekolah" => $request->sekolah]);
 
         return response()->json([

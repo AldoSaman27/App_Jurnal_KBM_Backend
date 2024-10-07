@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string("nip");
             $table->date("hari_tanggal");
-            $table->string("jam_ke");
+            $table->string("jam_pembelajaran");
             $table->string("kelas");
-            $table->string("uraian_kegiatan");
             $table->string("kehadiran");
+            $table->string("uraian_kegiatan");
+            $table->string("materi")->nullable();
+            $table->string("tujuan_pembelajaran")->nullable();
             $table->string("foto_kegiatan");
             $table->timestamps();
         });
