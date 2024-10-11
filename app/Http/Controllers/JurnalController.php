@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class JurnalController extends Controller
 {
@@ -188,5 +189,34 @@ class JurnalController extends Controller
         } else {
             return response()->json(["message" => "Jurnal (id: $id) tidak di temukan!"], 404);
         }
+    }
+
+    /**
+     * Download the specified resource from storage.
+     */
+    public function download($nip, $bulan, $tahun, $semester, $tahun_pembelajaran)
+    {
+        // Buat instance Carbon dengan tanggal awal bulan
+        $tanggal = Carbon::createFromDate($tahun, $bulan, 1);
+        // Ambil jumlah hari dalam bulan ini
+        $jumlahHari = $tanggal->daysInMonth;
+    
+        // Format tanggal mulai dan tanggal akhir dalam format Y-m-d H:i:s
+        $startDate = Carbon::createFromFormat('Y-m-d', "$tahun-$bulan-01")->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', "$tahun-$bulan-$jumlahHari")->endOfDay();
+        
+        // Query untuk mendapatkan data Jurnal berdasarkan rentang tanggal
+        $jurnal = Jurnal::where("nip", $nip)
+                        ->whereBetween("hari_tanggal", [$startDate, $endDate])
+                        ->orderBy("hari_tanggal", "asc")
+                        ->get();
+
+        $user = User::where("nip", $nip)->first();
+
+        Carbon::setLocale('id');
+        $formattedDate = Carbon::createFromFormat('Y-m-d', "$tahun-$bulan-01")->translatedFormat('F Y');
+
+        $pdf = Pdf::loadView('jurnal', ['user' => $user, 'jurnal' => $jurnal, 'semester' => $semester, 'tahun_pembelajaran' => $tahun_pembelajaran]);
+        return $pdf->download('Jurnal' . ' ' . $formattedDate . '.pdf');
     }
 }

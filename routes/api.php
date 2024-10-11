@@ -31,3 +31,4 @@ route::post("jurnal/store", [JurnalController::class, "store"]);
 route::get("jurnal/show/{id}", [JurnalController::class, "show"]);
 route::post("jurnal/update/{id}", [JurnalController::class, "update"]);
 route::delete("jurnal/destroy/{id}", [JurnalController::class, "destroy"]);
+route::get("jurnal/download/{nip}/{bulan}/{tahun}/{semester}/{tahun_pembelajaran}", [JurnalController::class, "download"]);
