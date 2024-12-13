@@ -216,6 +216,7 @@ class JurnalController extends Controller
         $formattedDate = Carbon::createFromFormat('Y-m-d', "$tahun-$bulan-01")->translatedFormat('F Y');
 
         $pdf = Pdf::loadView('jurnal', ['user' => $user, 'jurnal' => $jurnal, 'semester' => $semester, 'tahun_pembelajaran' => $tahun_pembelajaran]);
+        $pdf->setPaper('a4', 'landscape');
         return $pdf->download('Jurnal' . ' ' . $formattedDate . '.pdf');
     }
 }
