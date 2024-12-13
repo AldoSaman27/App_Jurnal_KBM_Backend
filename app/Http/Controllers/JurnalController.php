@@ -213,7 +213,6 @@ class JurnalController extends Controller
 
         $user = User::where("nip", $nip)->first();
 
-        Carbon::setLocale('id');
         $formattedDate = Carbon::createFromFormat('Y-m-d', "$tahun-$bulan-01")->translatedFormat('F Y');
 
         $pdf = Pdf::loadView('jurnal', ['user' => $user, 'jurnal' => $jurnal, 'semester' => $semester, 'tahun_pembelajaran' => $tahun_pembelajaran]);
