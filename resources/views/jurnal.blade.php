@@ -124,7 +124,7 @@
         <tbody>
             <tr>
                 <td class="header-left">
-                    <img src="https://s1.aldosaman.my.id/web_jurnal_kbm/storage/profile-picture/{{ $user->foto_profil }}" alt="{{ $user->foto_profil }}">
+                    <img src="https://jurnal.eclipse.my.id/storage/profile-picture/{{ $user->foto_profil }}" alt="{{ $user->foto_profil }}">
                 </td>
                 <td class="header-right">
                     <table>
@@ -178,7 +178,7 @@
                 <td>{{ $j->uraian_kegiatan }}</td>
                 <td>{{ $j->materi }}</td>
                 <td>{{ $j->tujuan_pembelajaran }}</td>
-                <td><img src="https://s1.aldosaman.my.id/web_jurnal_kbm/storage/activity-photos/{{ $j->foto_kegiatan }}" alt="{{ $j->foto_kegiatan }}"></td>
+                <td><img src="https://jurnal.eclipse.my.id/storage/activity-photos/{{ $j->foto_kegiatan }}" alt="{{ $j->foto_kegiatan }}"></td>
             </tr>
         @endforeach
         </tbody>
